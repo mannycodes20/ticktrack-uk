@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Sighting {
+  id         String   @id @default(cuid())
+  externalId String?  @unique   // Elanco's id, stops duplicates
+  source     String             // "ELANCO" or "USER"
+  species    String
+  latinName  String?
+  observedAt DateTime
+  city       String
+  latitude   Float
+  longitude  Float
+  notes      String?
+  imageUrl   String?
+  createdAt  DateTime @default(now())
+
+  @@index([observedAt])
+  @@index([city])
+  @@index([species])
+}
+
+model SyncRun {
+  id         String    @id @default(cuid())
+  startedAt  DateTime  @default(now())
+  finishedAt DateTime?
+  ok         Boolean   @default(false)
+  fetched    Int       @default(0)
+  inserted   Int       @default(0)
+  updated    Int       @default(0)
+  rejected   Int       @default(0)
+  error      String?
+}
