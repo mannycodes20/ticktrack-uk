@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    env:
+      DATABASE_URL: file:./ci.db
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - name: Install dependencies (clean, from lock file)
+        run: npm ci
+
+      - name: Create database from migrations
+        run: npx prisma migrate deploy
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Smoke test (start server, wait for data, check endpoints)
+        run: |
+          npm start > server.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:3001/api/health | grep -Eq '"sightings":[1-9]'; then
+              echo "Server is up and has data"
+              break
+            fi
+            if [ "$i" = "60" ]; then
+              echo "Server did not become healthy in 60 seconds"
+              cat server.log
+              exit 1
+            fi
+            sleep 1
+          done
+          curl -sf "http://localhost:3001/api/sightings?city=London&limit=1" > /dev/null
+          curl -sf http://localhost:3001/api/stats/cities > /dev/null
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:3001/api/sightings \
+            -H "Content-Type: application/json" -d '{"species":"","city":"Paris"}')
+          test "$code" = "400" || { echo "Expected 400, got $code"; exit 1; }
+          code=$(curl -s -o /dev/null -w "%{http_code}" -X POST http://localhost:3001/api/sightings \
+            -H "Content-Type: application/json" -d '{"species":"Marsh tick","observedAt":"2024-06-01","city":"Leeds"}')
+          test "$code" = "201" || { echo "Expected 201, got $code"; exit 1; }
+          echo "All endpoint checks passed"
+
+  client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
