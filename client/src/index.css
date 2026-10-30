@@ -146,14 +146,12 @@ button { font: inherit; cursor: pointer; }
 
 .site-footer { padding: 24px 32px; font-size: 0.85rem; color: var(--grey); text-align: center; border-top: 1px solid #e4e7eb; }
 
-/* Phones and small tablets */
+/* For Phones and small tablets */
 @media (max-width: 900px) {
   .site-header { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
   .site-header nav { margin-left: 0; gap: 16px; flex-wrap: wrap; }
   .hero { padding: 24px 16px; min-height: 0; }
   .hero-card { padding: 24px; }
-  .hero { grid-template-columns: 1fr; }
-  .hero-photos { height: 200px; }
   .intro { font-size: 1.4rem; }
   .tracker { grid-template-columns: 1fr; }
   .map-search { left: 56px; right: 12px; width: auto; }
@@ -161,4 +159,18 @@ button { font: inherit; cursor: pointer; }
   .side { max-height: none; }  .vet-band { flex-direction: column; align-items: center; gap: 0; }
   .vet-text { padding: 40px 0 16px; }
   .vet-dog { width: 280px; max-width: 80vw; }
+}
+/* fill tall screens: the tracker grows so the footer sits at the bottom */
+#root { min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1; display: flex; flex-direction: column; }
+.tracker { flex: 1; }
+.side { max-height: none; }
+
+/* hidden until a keyboard user tabs to it */
+.skip-link { position: absolute; left: 16px; top: -60px; z-index: 2000; background: var(--navy); color: #fff; padding: 10px 16px; border-radius: 4px; font-weight: 700; }
+.skip-link:focus { top: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
 }

@@ -44,6 +44,7 @@ function App() {
 
   return (
     <>
+    <a className="skip-link" href="#map">Skip to the map</a>
       <Header />
       <main>
         <Hero />

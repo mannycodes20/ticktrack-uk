@@ -25,12 +25,15 @@ type Props = {
 
 const ALL_REGIONS = L.geoJSON(regionShapes).getBounds()
 
+// People who turn off animations in their settings get a jump instead of a fly
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 // Zooms to the chosen region, or back out to the whole UK
 function FlyTo({ region }: { region: string | null }) {
   const map = useMap()
   useEffect(() => {
     const shape = regionShapes.find((f) => f.properties?.region === region)
-    map.flyToBounds(shape ? L.geoJSON(shape).getBounds() : ALL_REGIONS, { padding: [20, 20] })
+    map.flyToBounds(shape ? L.geoJSON(shape).getBounds() : ALL_REGIONS, { padding: [20, 20], maxZoom: 7, animate: !REDUCED_MOTION })
   }, [map, region])
   return null
 }
