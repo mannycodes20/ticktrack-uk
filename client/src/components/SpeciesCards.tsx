@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { SpeciesStat } from '../api'
 import { SPECIES_GUIDE } from '../species'
 
@@ -13,6 +13,23 @@ const COLOURS = ['#003be8', '#0b1f44', '#2b6cd8', '#1a3a8f', '#5b8cff']
 export function SpeciesCards({ species, onShowOnMap }: Props) {
   const track = useRef<HTMLUListElement>(null)
   const [current, setCurrent] = useState(0)
+  const [perView, setPerView] = useState(3)
+
+  // How many cards fit side by side (3, 2 or 1 depending on screen width).
+  // Re-measured whenever the row changes size.
+  useEffect(() => {
+    const row = track.current
+    if (!row) return
+    const observer = new ResizeObserver(() => {
+      const first = row.children[0] as HTMLElement | undefined
+      if (first) setPerView(Math.max(1, Math.round(row.clientWidth / (first.offsetWidth + 24))))
+    })
+    observer.observe(row)
+    return () => observer.disconnect()
+  }, [species.length])
+
+  // With 5 cards and 3 on screen there are only 3 places to scroll to
+  const stops = Math.max(1, species.length - perView + 1)
 
   // Scroll the row so card number `i` is at the left edge
   function goTo(i: number) {
@@ -70,17 +87,17 @@ export function SpeciesCards({ species, onShowOnMap }: Props) {
           ←
         </button>
         <div className="dots">
-          {species.map((s, i) => (
+          {Array.from({ length: stops }, (_, i) => (
             <button
-              key={s.species}
+              key={i}
               className={i === current ? 'dot active' : 'dot'}
               onClick={() => goTo(i)}
-              aria-label={`Show ${s.species}`}
+              aria-label={`Go to position ${i + 1} of ${stops}`}
               aria-current={i === current}
             />
           ))}
         </div>
-        <button className="arrow" onClick={() => goTo(Math.min(species.length - 1, current + 1))} aria-label="Next species">
+        <button className="arrow" onClick={() => goTo(Math.min(stops - 1, current + 1))} aria-label="Next species">
           →
         </button>
       </div>
