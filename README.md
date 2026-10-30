@@ -2,14 +2,14 @@
   <img src="docs/logo.png" alt="TickTrack logo" width="420">
 </p>
 
-# TickTrack UK
+# TickTrack 
 
 **A free map of tick sightings that shows pet owners where ticks are being found across the UK.**
 
-I built TickTrack UK for the Elanco Placement Programme 2026 full stack technical task. It takes Elanco's tick sighting data, keeps it in its own database, and turns it into a map, a guide to the five tick species, and a form where anyone can report a tick they've found. The layout is inspired by Elanco's ParvoTrack.
+I built TickTrack for the Elanco Placement Programme 2026 full stack technical task. It takes Elanco's tick sighting data, keeps it in its own database, and turns it into a map, a guide to the five tick species, and a form where anyone can report a tick they've found. The layout is inspired by Elanco's ParvoTrack.
 
-**Made by:** Emmanuel [SURNAME] ([@mannycodes20](https://github.com/mannycodes20))
-**Video walkthrough:** [LINK TO VIDEO]
+**Made by:** Emmanuel Mensah([@mannycodes20](https://github.com/mannycodes20))
+**Video walkthrough:** 
 
 > TickTrack UK is a student project. It is not an official Elanco product.
 
@@ -25,7 +25,6 @@ I built TickTrack UK for the Elanco Placement Programme 2026 full stack technica
 - [API reference](#api-reference)
 - [Running it on your machine](#running-it-on-your-machine)
 - [How I worked](#how-i-worked)
-- [Use of AI](#use-of-ai)
 - [What I'd do next](#what-id-do-next)
 - [Credits](#credits)
 
