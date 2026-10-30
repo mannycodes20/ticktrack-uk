@@ -4,7 +4,7 @@ import type { Filters } from "./schemas.js";
 // Turn validated query filters into a Prisma "where" clause.
 export function buildWhere(f: Filters): Prisma.SightingWhereInput {
   return {
-    city: f.city,
+        city: f.city ? { in: f.city } : undefined,
     species: f.species,
     source: f.source,
     observedAt: {

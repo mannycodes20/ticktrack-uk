@@ -16,8 +16,17 @@ import { useApi } from './useApi'
 
 function App() {
   const [filters, setFilters] = useState<FilterValues>({})
-  const [region, setRegion] = useState<string | null>(null)
-  const [city, setCity] = useState<string | null>(null)
+  // A shared link like ?region=London&city=London opens on that place
+  const [region, setRegion] = useState<string | null>(() => {
+    const name = new URLSearchParams(window.location.search).get('region')
+    return name && name in REGION_CITIES ? name : null
+  })
+  const [city, setCity] = useState<string | null>(() => {
+    const params = new URLSearchParams(window.location.search)
+    const name = params.get('city')
+    const inRegion = REGION_CITIES[params.get('region') ?? '']
+    return name && inRegion?.includes(name) ? name : null
+  })
   // Goes up after each report, so the map and counts load fresh data
   const [reports, setReports] = useState(0)
 
