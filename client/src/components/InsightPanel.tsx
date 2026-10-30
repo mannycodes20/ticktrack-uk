@@ -1,7 +1,9 @@
 import { activityLevel } from '../activity'
 import { apiUrl, type Filters, type SightingPage } from '../api'
-import type { RegionStat } from '../regions'
+import { REGION_CITIES, type RegionStat } from '../regions'
 import { useApi } from '../useApi'
+import { ShareButton } from './ShareButton'
+import { Timeline } from './Timeline'
 
 type Props = {
   regions: RegionStat[]
@@ -54,8 +56,12 @@ export function InsightPanel({ regions, region, city, filters, onRegion, onCity 
     const lastSeen = current.cities.map((c) => c.lastSeen ?? '').sort().pop()
     return (
       <div className="insights" aria-live="polite">
-        <button className="link-button" onClick={() => onRegion(null)}>← All regions</button>
+        <div className="panel-top">
+          <button className="link-button" onClick={() => onRegion(null)}>← All regions</button>
+          <ShareButton region={current.region} />
+        </div>
         <Summary place={current.region} count={current.count} lastSeen={lastSeen} />
+        <Timeline place={current.region} cities={REGION_CITIES[current.region] ?? []} filters={filters} />
         {current.cities.length > 0 ? (
           <>
             <h4>Cities in this region</h4>
@@ -72,8 +78,12 @@ export function InsightPanel({ regions, region, city, filters, onRegion, onCity 
   const page = sightings.data
   return (
     <div className="insights" aria-live="polite">
-      <button className="link-button" onClick={() => onCity(null)}>← Back to {current.region}</button>
+      <div className="panel-top">
+        <button className="link-button" onClick={() => onCity(null)}>← Back to {current.region}</button>
+        <ShareButton region={current.region} city={cityStat.city} />
+      </div>
       <Summary place={cityStat.city} count={cityStat.count} lastSeen={cityStat.lastSeen} />
+      <Timeline place={cityStat.city} cities={[cityStat.city]} filters={filters} />
 
       {sightings.error && <p role="alert" className="error">Could not load sightings: {sightings.error}</p>}
       {sightings.loading && <p>Loading…</p>}

@@ -12,7 +12,12 @@ export const FilterQuery = z
   .object({
     from: isoDate.optional(),
     to: isoDate.optional(),
-    city: z.enum(CITIES).optional(),
+       // One city, or several separated by commas (a whole region), e.g. Leeds,Sheffield
+    city: z
+      .string()
+      .transform((s) => s.split(",").map((c) => c.trim()).filter(Boolean))
+      .pipe(z.array(z.enum(CITIES, { message: "Unknown city" })).min(1, "Choose at least one city"))
+      .optional(),
     species: z.string().trim().min(1).optional(),
     source: z.enum(["ELANCO", "USER"]).optional(),
   })
