@@ -49,7 +49,7 @@ function App() {
         <Hero />
 
         <h2 className="intro">
-          TickTrack UK, <em>a free map of tick sightings</em>, shows where ticks are being found across the UK.
+          TickTrack, <em>a free map of tick sightings</em>, shows where ticks are being found across the UK.
         </h2>
 
         <section className="tracker" id="map" aria-label="Tick sightings map">

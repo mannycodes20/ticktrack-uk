@@ -38,9 +38,9 @@ function FlyTo({ region }: { region: string | null }) {
 export function TickMap({ regions, selected, onSelect }: Props) {
   return (
     <MapContainer bounds={ALL_REGIONS} zoomSnap={0.25} className="map" scrollWheelZoom={false}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a> · Boundaries: ONS, OGL'
-        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+           <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Boundaries: ONS, OGL'
+        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <FlyTo region={selected} />
       {regionShapes.map((shape) => {
