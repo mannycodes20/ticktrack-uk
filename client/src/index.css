@@ -65,14 +65,6 @@ button { font: inherit; cursor: pointer; }
     radial-gradient(circle at 94% 20%, #ffffff44 0 22px, transparent 23px),
     linear-gradient(120deg, #e8eeff 0%, #5b8cff 55%, var(--blue) 100%);
 }
-.hero { display: grid; grid-template-columns: minmax(0, 720px) 1fr; gap: 24px; align-items: center; }
-.hero-photos {
-  display: grid; grid-template-columns: 1.3fr 1fr 1fr; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 6px;
-  height: 300px; align-self: center;
-}
-.hero-photos img { width: 100%; height: 100%; min-height: 0; object-fit: cover; border-radius: 8px; }
-.hero-photos img:first-child { grid-row: span 2; }
-.hero-photos img:last-child { grid-column: span 2; }
 .hero-card { background: #fff; border-radius: 10px; padding: 40px 48px; max-width: 760px; box-shadow: 0 6px 24px rgb(0 0 0 / 0.12); }
 .hero-card h1 { margin: 0 0 12px; font-size: 2.2rem; }
 .hero-buttons { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
@@ -146,7 +138,7 @@ button { font: inherit; cursor: pointer; }
 
 .site-footer { padding: 24px 32px; font-size: 0.85rem; color: var(--grey); text-align: center; border-top: 1px solid #e4e7eb; }
 
-/* For Phones and small tablets */
+/* Phones and small tablets */
 @media (max-width: 900px) {
   .site-header { flex-wrap: wrap; gap: 8px; padding: 10px 16px; }
   .site-header nav { margin-left: 0; gap: 16px; flex-wrap: wrap; }
@@ -156,10 +148,12 @@ button { font: inherit; cursor: pointer; }
   .tracker { grid-template-columns: 1fr; }
   .map-search { left: 56px; right: 12px; width: auto; }
   .map { min-height: 480px; }
-  .side { max-height: none; }  .vet-band { flex-direction: column; align-items: center; gap: 0; }
+  .side { max-height: none; }
+  .vet-band { flex-direction: column; align-items: center; gap: 0; }
   .vet-text { padding: 40px 0 16px; }
   .vet-dog { width: 280px; max-width: 80vw; }
 }
+
 /* fill tall screens: the tracker grows so the footer sits at the bottom */
 #root { min-height: 100vh; display: flex; flex-direction: column; }
 main { flex: 1; display: flex; flex-direction: column; }
@@ -174,3 +168,76 @@ main { flex: 1; display: flex; flex-direction: column; }
   html { scroll-behavior: auto; }
   * { transition: none !important; animation: none !important; }
 }
+
+/* Learn section */
+.learn { max-width: 1100px; margin: 0 auto; padding: 64px 24px; }
+.learn > h2 { font-size: 2rem; text-align: center; margin: 0 0 8px; }
+.learn-intro { text-align: center; max-width: 640px; margin: 0 auto 24px; }
+.learn > h3 { font-size: 1.4rem; margin: 48px 0 12px; }
+
+.carousel { position: relative; }
+.species-row {
+  list-style: none; margin: 0; padding: 8px 4px 24px; display: grid; grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 48px) / 3); gap: 24px;
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.species-row::-webkit-scrollbar { display: none; }
+.species-card {
+  scroll-snap-align: start; display: flex; flex-direction: column; background: #fff;
+  border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgb(11 31 68 / 0.14);
+}
+.species-art {
+  position: relative; min-height: 130px; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 20px; color: #fff;
+}
+.species-card .species-art h4, .species-card .species-art .latin { position: relative; color: #fff; }
+.species-art h4 { margin: 0; font-size: 1.35rem; }
+.species-art .latin { margin: 2px 0 0; font-style: italic; opacity: 0.85; font-size: 0.9rem; }
+.species-body { display: flex; flex-direction: column; flex: 1; padding: 18px 20px 20px; }
+.species-card h4 { margin: 0; font-size: 1.15rem; color: var(--navy); }
+.species-card .latin { margin: 2px 0 12px; font-style: italic; color: var(--grey); font-size: 0.9rem; }
+.species-card dl { margin: 0 0 16px; font-size: 0.92rem; }
+.species-card dt { font-weight: 700; font-size: 0.8rem; color: var(--navy); }
+.species-card dd { margin: 0 0 8px; }
+.species-card .btn { margin-top: auto; width: 100%; }
+
+.carousel-controls { display: flex; align-items: center; justify-content: center; gap: 48px; margin-top: 4px; }
+.arrow { width: 36px; height: 36px; border-radius: 50%; border: none; background: var(--navy); color: #fff; font-size: 1.1rem; font-weight: 800; }
+.arrow:hover { background: var(--blue); }
+.dots { display: flex; gap: 8px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; border: none; padding: 0; background: #9aa5b1; }
+.dot.active { background: var(--blue); }
+
+@media (max-width: 900px) { .species-row { grid-auto-columns: calc((100% - 24px) / 2); } }
+@media (max-width: 600px) { .species-row { grid-auto-columns: 85%; } }
+
+.season-filter { display: inline-flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 0.85rem; margin-bottom: 16px; }
+.season-filter select { padding: 8px; font-size: 1rem; border: 1px solid var(--border); border-radius: 4px; }
+.bars { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; height: 240px; align-items: end; border-bottom: 2px solid var(--navy); }
+.bars li { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; position: relative; }
+.bar { width: 100%; background: var(--blue); border-radius: 4px 4px 0 0; min-height: 2px; }
+.bars .now .bar { background: var(--focus); }
+.bar-count { font-size: 0.8rem; font-weight: 700; }
+.bar-month { position: absolute; bottom: -24px; font-size: 0.8rem; font-weight: 600; }
+.bars + p { margin-top: 36px; }
+
+.tips { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.tips li { display: flex; gap: 14px; background: var(--tint); border-radius: 8px; padding: 18px; }
+.tip-number { flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%; background: var(--blue); color: #fff; font-weight: 800; display: grid; place-items: center; }
+.tips h4 { margin: 0 0 4px; color: var(--navy); }
+.tips p { margin: 0; }
+
+/* Stop the sticky header covering a section's top when a link jumps to it */
+.tracker, .learn { scroll-margin-top: 72px; }
+
+/* Photo and intro text above the species guide */
+.tick-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; margin-top: 32px; }
+.tick-intro figure { margin: 0; }
+.tick-intro img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 10px rgb(11 31 68 / 0.14); }
+.tick-intro figcaption { font-size: 0.8rem; color: var(--grey); margin-top: 6px; }
+.tick-intro h3 { font-size: 1.4rem; margin-top: 0; }
+@media (max-width: 700px) { .tick-intro { grid-template-columns: 1fr; } }
+
+/* Species photos fill the card header; the credit sits in the corner */
+.species-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.photo-credit { position: absolute; left: 0; bottom: 0; background: rgb(0 0 0 / 0.55); color: #fff; font-size: 0.68rem; padding: 2px 8px; border-top-right-radius: 4px; }

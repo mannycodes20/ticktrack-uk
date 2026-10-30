@@ -1,6 +1,13 @@
 // Short guide notes for each species in the Elanco data.
 // The names and Latin names come from the API, these notes are our own summary.
-export type SpeciesGuide = { lives: string; feeds: string; pets: string }
+export type SpeciesGuide = {
+  lives: string
+  feeds: string
+  pets: string
+  // Optional photo in public/ticks, with the credit its licence asks for
+  image?: string
+  credit?: string
+}
 
 export const SPECIES_GUIDE: Record<string, SpeciesGuide> = {
   'Marsh tick': {
