@@ -8,6 +8,7 @@ import { InsightPanel } from './components/InsightPanel'
 import { LearnSection } from './components/LearnSection'
 import { Legend } from './components/Legend'
 import { MapSearch } from './components/MapSearch'
+import { ReportForm } from './components/ReportForm'
 import { TickMap } from './components/TickMap'
 import { VetBand } from './components/VetBand'
 import { REGION_CITIES, regionOf, regionStats } from './regions'
@@ -17,10 +18,12 @@ function App() {
   const [filters, setFilters] = useState<FilterValues>({})
   const [region, setRegion] = useState<string | null>(null)
   const [city, setCity] = useState<string | null>(null)
+  // Goes up after each report, so the map and counts load fresh data
+  const [reports, setReports] = useState(0)
 
   // Species for the dropdown, and city counts that follow the filters
-  const species = useApi<SpeciesStat[]>('/api/stats/species')
-  const cityStats = useApi<CityStat[]>(apiUrl('/api/stats/cities', filters))
+  const species = useApi<SpeciesStat[]>(apiUrl('/api/stats/species', { v: reports || undefined }))
+  const cityStats = useApi<CityStat[]>(apiUrl('/api/stats/cities', { ...filters, v: reports || undefined }))
 
   const cities = cityStats.data ?? []
   const regions = regionStats(cities)
@@ -46,6 +49,11 @@ function App() {
     setFilters({ ...filters, species: name })
     chooseRegion(null)
     document.getElementById('map')?.scrollIntoView()
+  }
+  // After a report: reload the data and select the city it was reported in
+  function handleReported(name: string) {
+    setReports((n) => n + 1)
+    choosePlace(name)
   }
   const error = cityStats.error ?? species.error
 
@@ -101,6 +109,8 @@ function App() {
         </section>
 
         <LearnSection species={species.data ?? []} onShowOnMap={showSpeciesOnMap} />
+
+        <ReportForm species={species.data ?? []} onReported={handleReported} />
 
         <VetBand />
       </main>
