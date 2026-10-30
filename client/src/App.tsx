@@ -5,6 +5,7 @@ import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { InsightPanel } from './components/InsightPanel'
+import { LearnSection } from './components/LearnSection'
 import { Legend } from './components/Legend'
 import { MapSearch } from './components/MapSearch'
 import { TickMap } from './components/TickMap'
@@ -40,17 +41,23 @@ function App() {
       setCity(name)
     }
   }
+  // From a species card: filter the map to that species and scroll up to it
+  function showSpeciesOnMap(name: string) {
+    setFilters({ ...filters, species: name })
+    chooseRegion(null)
+    document.getElementById('map')?.scrollIntoView()
+  }
   const error = cityStats.error ?? species.error
 
   return (
     <>
-    <a className="skip-link" href="#map">Skip to the map</a>
+      <a className="skip-link" href="#map">Skip to the map</a>
       <Header />
       <main>
         <Hero />
 
         <h2 className="intro">
-          TickTrack, <em>a free map of tick sightings</em>, shows where ticks are being found across the UK.
+          TickTrack UK, <em>a free map of tick sightings</em>, shows where ticks are being found across the UK.
         </h2>
 
         <section className="tracker" id="map" aria-label="Tick sightings map">
@@ -92,6 +99,8 @@ function App() {
             </div>
           </aside>
         </section>
+
+        <LearnSection species={species.data ?? []} onShowOnMap={showSpeciesOnMap} />
 
         <VetBand />
       </main>
