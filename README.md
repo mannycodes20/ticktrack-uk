@@ -103,8 +103,7 @@ I built TickTrack for the Elanco Placement Programme 2026 full stack technical t
 | Prisma Studio | Looking at and fixing rows in the database |
 | Chrome DevTools | Checking layouts at phone width and watching network requests |
 | npm | Installing packages and running scripts |
-| Claude | A tutor and code reviewer (see [Use of AI](#use-of-ai)) |
-
+| Claude | Code Reviewer  and Research |
 ## How it works
 
 ### The big picture
