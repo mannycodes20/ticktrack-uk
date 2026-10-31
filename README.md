@@ -9,7 +9,7 @@
 I built TickTrack for the Elanco Placement Programme 2026 full stack technical task. It takes Elanco's tick sighting data, keeps it in its own database, and turns it into a map, a guide to the five tick species, and a form where anyone can report a tick they've found. The layout is inspired by Elanco's ParvoTrack.
 
 **Made by:** Emmanuel Mensah([@mannycodes20](https://github.com/mannycodes20))
-**Video walkthrough:** 
+**Video walkthrough:** https://youtu.be/N7NBXSH8kqI
 
 > TickTrack UK is a student project. It is not an official Elanco product.
 
@@ -214,7 +214,7 @@ sequenceDiagram
 Every error from the API has the same shape, so the frontend handles them all in one place:
 
 ```json
-{ "error": { "code": "VALIDATION_ERROR", "message": "Invalid query", "details": { "city": "Unknown city" } } }
+{ "error": { "code": "VALIDATION_ERROR", "message": "Some fields are invalid", "details": [ { "field": "city", "message": "Unknown city" } ] } }
 ```
 
 - Bad input returns **400** with a message for each field.
